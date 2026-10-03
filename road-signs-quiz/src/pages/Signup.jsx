@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { signup } from '../data/userStore'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate, Link } from 'react-router-dom'
 
-
-function isValidPassword(){
+function isValidPassword(password){
     if (password.length < 8) return false
 
     const hasUpperCase = /[A-Z]/.test(password)
@@ -17,6 +18,10 @@ function Signup() {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
 
+    // Adding automated login and redirect to accoutn page after successful signup
+    const {setUser} = useAuth()
+    const navigate = useNavigate()
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!email || !password) return
@@ -26,16 +31,17 @@ function Signup() {
         }
         try {
             const newUser = signup(email, password)
+            setUser(newUser)
+            navigate('/account')
         } catch (err) {
             setError(err.message)
         }
     }
-
-    if (error) return <p style={{ color: 'red' }}>Error: {error}</p>
     
     return (
         <div>
             <h1>Sign Up now</h1>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <input 
                 value={email}
@@ -50,6 +56,7 @@ function Signup() {
                 />
                 <button type='submit'>Sign Up</button>
             </form>
+            <Link to="/login">Already have an account? Log in</Link>
         </div>
     )
 }
