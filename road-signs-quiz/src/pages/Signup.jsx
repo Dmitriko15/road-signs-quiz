@@ -19,7 +19,7 @@ function Signup() {
     const [error, setError] = useState(null)
 
     // Adding automated login and redirect to accoutn page after successful signup
-    const {setUser} = useAuth()
+    const {handleLogin} = useAuth()
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
@@ -33,10 +33,10 @@ function Signup() {
             setError('Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.')
             return 
         }
-        
+
         try {
-            const newUser = signup(email, password)
-            setUser(newUser)
+            signup(email, password)
+            handleLogin(email, password)
             navigate('/account')
         } catch (err) {
             setError(err.message)
@@ -48,7 +48,8 @@ function Signup() {
             <h1>Sign Up now</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
-                <input 
+                <input
+                type='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder='Enter Email ...'
