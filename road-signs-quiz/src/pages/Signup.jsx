@@ -24,11 +24,16 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (!email || !password) return
+        if (!email || !password) {
+            setError('Please fill in both email and password.')
+            return
+        }
+
         if (!isValidPassword(password)) {
             setError('Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.')
             return 
         }
+        
         try {
             const newUser = signup(email, password)
             setUser(newUser)

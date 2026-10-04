@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-//import { Demo } from './attempt/Demo'
+//import Demo from './attempt/Demo'
+
 
 function Home() {
     return (
