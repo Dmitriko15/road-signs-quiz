@@ -8,7 +8,6 @@ function Login() {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
 
-    // Adding automated login and redirect to accoutn page after successful signup
     const {handleLogin} = useAuth()
     const navigate = useNavigate()
 
