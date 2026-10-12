@@ -7,6 +7,10 @@ login() - fetch stored user data into localStorage
 logout() - remove currently logged user from localStorage
 getCurrentUser() - know currently logged user
 saveAttempt() - add completed quiz attempt to current user's account
+
+DATA SHAPE (stored in localStorage under 'users')
+User:    { id, email, password, attempts: [] }
+Attempt: { date (ISO string), score, total, passed (boolean), answers: [] }
 */
 
 const USERS_KEY = 'users'
