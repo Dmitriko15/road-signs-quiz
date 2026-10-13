@@ -21,21 +21,50 @@ function useQuiz(questionCount){
         shuffle(questions).slice(0, questionCount).map(shuffleQuestion)
     )
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [ selectedIndex, setSelectedIndex ] = useState(null)
+    const [ answers, setAnswers ] = useState([])
+    const [ isFinished, setIsFinished ] = useState(false)
+
     const currentQuestion = quizQuestions[currentIndex]
     const isLastQuestion = currentIndex === quizQuestions.length-1
+    const score = answers.filter(answer => answer.correct).length
 
-    function goToNext() {
-        if(!isLastQuestion) {
+    function selectAnswer(index) {
+        if (isFinished) return
+        setSelectedIndex(index)
+    }
+
+    function next() {
+        if(selectedIndex === null || isFinished) return
+
+        const answer = {
+            questionId: currentQuestion.id,
+            selectedIndex,
+            correct: selectedIndex === currentQuestion.correctAnswer
+        }
+
+        setAnswers(prev => [...prev, answer])
+        setSelectedIndex(null)
+
+        if(isLastQuestion){
+            setIsFinished(true)
+        } else {
             setCurrentIndex(prev => prev+1)
         }
     }
 
     return {
+        quizQuestions,
         currentQuestion,
         currentIndex,
         total: quizQuestions.length,
         isLastQuestion,
-        goToNext
+        selectedIndex,
+        answers,
+        score,
+        isFinished,
+        selectAnswer,
+        next
     }
 }
 
