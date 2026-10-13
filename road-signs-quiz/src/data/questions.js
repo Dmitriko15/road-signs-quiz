@@ -1,8 +1,8 @@
 /* This file is the single question bank for the whole quiz
 Both the Exam page and the Demo page read from it through the useQuiz hook
 Here is a setup for exports:
-questions - array of 10 road sign questions, in fixed order
-Exam uses all 10, Demo uses questions.slice(0, n) for a shorter run
+questions - array of 14 road sign questions, in fixed order
+Exam uses 10 of 14, Demo uses questions.slice(0, n) for a shorter run
 
 DATA SHAPE (exported as default array)
 Question: { id, image (path string), text, options: [] (4 strings), correctIndex (number, 0-3) }
