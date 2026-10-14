@@ -1,4 +1,3 @@
-import './App.css'
 import { AuthProvider } from './context/AuthContext'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoutes'
@@ -10,20 +9,23 @@ import Login from './pages/Login'
 import Account from './pages/Account'
 import Exam from './pages/Exam'
 import Demo from './attempt/Demo'
+import Layout from './components/Layout'
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/demo" element={<Demo />} />
-          <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
-          <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/demo" element={<Demo />} />
+            <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+            <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

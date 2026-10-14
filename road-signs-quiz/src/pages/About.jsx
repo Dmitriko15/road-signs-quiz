@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 function About() {
     return (
         <div>
@@ -14,10 +12,9 @@ function About() {
             can track previous attempts and retry the quiz until you pass.
             </p>
             <p>
-            Built with React, React Router, and browser localStorage for account
+            Built with React, React Router, styled with Tailwind CSS and browser localStorage for account
             and quiz data — no backend server required.
             </p>
-            <Link to="/">Back to Home</Link>
         </div>
     )
 }

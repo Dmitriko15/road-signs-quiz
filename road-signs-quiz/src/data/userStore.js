@@ -10,7 +10,7 @@ saveAttempt() - add completed quiz attempt to current user's account
 
 DATA SHAPE (stored in localStorage under 'users')
 User:    { id, email, password, attempts: [] }
-Attempt: { date (ISO string), score, total, passed (boolean), answers: [] }
+Attempt: { date (ISO string), score, total, passed (boolean), answers: [{ questionId, selectedIndex, correct }] }
 */
 
 const USERS_KEY = 'users'

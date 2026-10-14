@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 
 function Account() {
-    const {user, handleLogout} = useAuth()
+    const {user} = useAuth()
 
     return (
         <div>
@@ -19,7 +19,6 @@ function Account() {
                 </ul>
             )}
             <Link to="/exam">Start Your Exam</Link>
-            <button onClick={handleLogout}>Logout</button>
         </div>
     )
 }

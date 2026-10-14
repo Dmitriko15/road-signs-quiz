@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 function Contact() {
     return (
         <div> 
@@ -9,7 +7,6 @@ function Contact() {
                 <li>Email: dmitri.konev@mycit.com</li>
                 <li>Student ID: R0****80</li>
             </ul>
-            <Link to="/">Back to Home</Link>
         </div>
     )
 }

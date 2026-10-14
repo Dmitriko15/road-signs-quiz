@@ -1,13 +1,13 @@
 /* This file is the single question bank for the whole quiz
 Both the Exam page and the Demo page read from it through the useQuiz hook
 Here is a setup for exports:
-questions - array of 14 road sign questions, in fixed order
-Exam uses 10 of 14, Demo uses questions.slice(0, n) for a shorter run
+questions - array of 14 road sign questions
+useQuiz shuffles the pool and picks 10 for Exam or 3 for Demo, shuffling each question's options too
 
 DATA SHAPE (exported as default array)
-Question: { id, image (path string), text, options: [] (4 strings), correctIndex (number, 0-3) }
+Question: { id, image (path string), text, options: [] (4 strings), correctAnswer (number, 0-3) }
 Image paths point to files in public/signs/, served from the root (e.g. '/signs/stop.png')
-Attempt answers will reference questions by id: { questionId, selectedIndex, correct }
+Attempt answers reference questions by id: { questionId, selectedIndex (null if unanswered), correct }
 */
 
 /* ----------------------- QUESTIONS shape -----------------------*/
