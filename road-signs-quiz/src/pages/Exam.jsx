@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import useQuiz from '../hooks/useQuiz'
 import { saveAttempt, getCurrentUser } from '../data/userStore'
@@ -29,6 +29,7 @@ function ExamRun({ onRetry }) {
       if (!isFinished || hasSaved.current) return
       hasSaved.current = true
 
+      //console.log('Exam effect: saving', { score, total, passed }) // Used for debug session
       saveAttempt({
          date: new Date().toISOString(),
          score, total, passed, answers

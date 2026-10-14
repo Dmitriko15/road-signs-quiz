@@ -66,7 +66,10 @@ export function getCurrentUser() {
 
 /* ----------------------- SAVE ATTEMPT function ----------------------- */
 
-export function saveAttempt(userId, attempt) {
+export function saveAttempt(attempt) {
+  const userId = localStorage.getItem(CURRENT_USER_KEY)
+  if (!userId) throw new Error('No logged-in user')
+
   const users = getUsers()
   const updated = users.map(u =>
     u.id === userId ? { ...u, attempts: [...u.attempts, attempt] } : u
