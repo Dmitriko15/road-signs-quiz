@@ -1,15 +1,16 @@
-import { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
-import { useNavigate, Link } from 'react-router-dom'
-
-
 import useQuiz from '../hooks/useQuiz'
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60)
+  const s = seconds % 60
+  return `${m}:${String(s).padStart(2, '0')}`
+}
 
 function Demo() {
   const {
     currentQuestion, currentIndex, total, isLastQuestion,
-    selectedIndex, answers, score, isFinished, selectAnswer, next
-  } = useQuiz(5)
+    selectedIndex, answers, score, isFinished, timeLeft, selectAnswer, next
+  } = useQuiz(5, 20)
 
   if (isFinished) {
     return (
@@ -22,6 +23,7 @@ function Demo() {
 
   return (
     <div>
+      <p>Time Left: {formatTime(timeLeft)}</p>
       <p>Question {currentIndex + 1} of {total}</p>
       <img src={currentQuestion.image} width="120" alt="Road sign" />
       <ul>

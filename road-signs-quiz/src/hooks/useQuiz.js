@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import questions from '../data/questions'
 
 function shuffle(array) {
@@ -16,18 +16,35 @@ function shuffleQuestion(question) {
     return {...question,options, correctAnswer: options.indexOf(correctText)}
 }
 
-function useQuiz(questionCount){
+function useQuiz(questionCount, timeLimitSeconds){
     const[quizQuestions] = useState(() => 
         shuffle(questions).slice(0, questionCount).map(shuffleQuestion)
     )
     const [currentIndex, setCurrentIndex] = useState(0)
     const [ selectedIndex, setSelectedIndex ] = useState(null)
     const [ answers, setAnswers ] = useState([])
-    const [ isFinished, setIsFinished ] = useState(false)
+    const [ timeLeft, setTimeLeft ] = useState(timeLimitSeconds)
+    const [ endTime ] = useState(() => Date.now() + timeLimitSeconds * 1000)
 
     const currentQuestion = quizQuestions[currentIndex]
     const isLastQuestion = currentIndex === quizQuestions.length-1
     const score = answers.filter(answer => answer.correct).length
+    const isFinished = answers.length === quizQuestions.length || timeLeft === 0
+
+    const results = quizQuestions.map(question => {
+        const given = answers.find(answer => answer.questionId == question.id)
+        return given ?? { questionId: question.id, selectedIndex: null, correct: false }
+    })
+
+    useEffect(() => {
+        if(isFinished) return
+
+        const id = setInterval(() => {
+            setTimeLeft(Math.max(0, Math.ceil((endTime - Date.now()) / 1000 )))
+        }, 250)
+
+        return () => clearInterval(id)
+    }, [isFinished, endTime])
 
     function selectAnswer(index) {
         if (isFinished) return
@@ -46,9 +63,7 @@ function useQuiz(questionCount){
         setAnswers(prev => [...prev, answer])
         setSelectedIndex(null)
 
-        if(isLastQuestion){
-            setIsFinished(true)
-        } else {
+        if(!isLastQuestion){
             setCurrentIndex(prev => prev+1)
         }
     }
@@ -60,9 +75,10 @@ function useQuiz(questionCount){
         total: quizQuestions.length,
         isLastQuestion,
         selectedIndex,
-        answers,
+        answers: results,
         score,
         isFinished,
+        timeLeft,
         selectAnswer,
         next
     }
