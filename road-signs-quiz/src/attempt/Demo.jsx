@@ -1,4 +1,10 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import useQuiz from '../hooks/useQuiz'
+
+const QUESTION_COUNT = 3
+const TIME_LIMIT_SECONDS = 60
+
 
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60)
@@ -6,17 +12,31 @@ function formatTime(seconds) {
   return `${m}:${String(s).padStart(2, '0')}`
 }
 
-function Demo() {
+function DemoRun({ onRetry }) {
   const {
     currentQuestion, currentIndex, total, isLastQuestion,
     selectedIndex, answers, score, isFinished, timeLeft, selectAnswer, next
-  } = useQuiz(5, 20)
+  } = useQuiz(QUESTION_COUNT, TIME_LIMIT_SECONDS)
 
   if (isFinished) {
     return (
       <div>
-        <h1>Score: {score} / {total}</h1>
-        <pre>{JSON.stringify(answers, null, 2)}</pre>
+        <h1>Demo Score: {score} / {total}</h1>
+        <p>This is a practice run. Your result is not recorded.</p>
+        <ul>
+          {answers.map((answer, i) => (
+            <li key={answer.questionId}>
+              Question {i + 1}: {answer.correct ? '✓ Correct' : '✗ Wrong'}
+            </li>
+          ))}
+        </ul>
+
+        <button onClick={onRetry}>Try the demo again</button>
+
+        <p>Ready for the real exam?</p>
+        <Link to="/signup" replace>Sign up</Link>
+        {' '}or{' '}
+        <Link to="/login" replace>Log in</Link>
       </div>
     )
   }
@@ -40,6 +60,11 @@ function Demo() {
       </button>
     </div>
   )
+}
+
+function Demo() {
+  const [run, setRun] = useState(0)
+  return <DemoRun key={run} onRetry={() => setRun(prev => prev + 1)} />
 }
 
 export default Demo

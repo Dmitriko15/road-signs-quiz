@@ -15,7 +15,7 @@ function Home() {
             On your driving test, you are likely to be asked 10 road sign questions before you leave the test centre.
             </p>
             <p>
-            If you want to try out a theory test quiz, <Link to="/demo">head here</Link> for XXX demo questions.
+            If you want to try out a theory test quiz, <Link to="/demo">head here</Link> for 3 demo questions.
             Good Luck!</p>
             <Link to="/about">Go to About</Link>
             <br />
