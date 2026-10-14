@@ -19,7 +19,22 @@ function formatTime(seconds) {
 function ExamRun({ onRetry }) {
    const { setUser } = useAuth()
    const {
-      quizQuestions, currentQuestion, currentIndex, total, isLastQuestion, selectedIndex, answers, score, isFinished, timeLeft, selectAnswer, next
+      quizQuestions,
+      currentQuestion,
+      currentIndex,
+      total,
+      isFirstQuestion,
+      isLastQuestion,
+      selectedIndex,
+      answers,
+      answeredCount,
+      score,
+      isFinished,
+      timeLeft,
+      selectAnswer,
+      goNext,
+      goPrevious,
+      submit
    } = useQuiz(QUESTION_COUNT, TIME_LIMIT_SECONDS)
 
    const hasSaved = useRef(false)
@@ -72,9 +87,13 @@ function ExamRun({ onRetry }) {
                </li>
             ))}
          </ul>
-         <button onClick={next} disabled={selectedIndex === null}>
-            {isLastQuestion ? 'Finish' : 'Next'}
-         </button>
+         <button onClick={goPrevious} disabled={isFirstQuestion}>Previous</button>
+         {isLastQuestion ? (
+            <button onClick={submit}>Submit</button> 
+         ) : (
+            <button onClick={goNext}>Next</button> 
+         )}
+         <p>Answered {answeredCount} of {total}</p>
       </div>
   )
 }

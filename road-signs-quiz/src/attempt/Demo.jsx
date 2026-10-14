@@ -14,9 +14,23 @@ function formatTime(seconds) {
 
 function DemoRun({ onRetry }) {
   const {
-    currentQuestion, currentIndex, total, isLastQuestion,
-    selectedIndex, answers, score, isFinished, timeLeft, selectAnswer, next
-  } = useQuiz(QUESTION_COUNT, TIME_LIMIT_SECONDS)
+      quizQuestions,
+      currentQuestion,
+      currentIndex,
+      total,
+      isFirstQuestion,
+      isLastQuestion,
+      selectedIndex,
+      answers,
+      answeredCount,
+      score,
+      isFinished,
+      timeLeft,
+      selectAnswer,
+      goNext,
+      goPrevious,
+      submit
+   } = useQuiz(QUESTION_COUNT, TIME_LIMIT_SECONDS)
 
   if (isFinished) {
     return (
@@ -55,9 +69,13 @@ function DemoRun({ onRetry }) {
           </li>
         ))}
       </ul>
-      <button onClick={next} disabled={selectedIndex === null}>
-        {isLastQuestion ? 'Finish' : 'Next'}
-      </button>
+      <button onClick={goPrevious} disabled={isFirstQuestion}>Previous</button>
+      {isLastQuestion ? (
+        <button onClick={submit}>Submit</button> 
+      ) : (
+        <button onClick={goNext}>Next</button> 
+      )}
+      <p>Answered {answeredCount} of {total}</p>
     </div>
   )
 }

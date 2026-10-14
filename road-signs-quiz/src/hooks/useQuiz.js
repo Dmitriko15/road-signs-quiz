@@ -20,21 +20,29 @@ function useQuiz(questionCount, timeLimitSeconds){
     const[quizQuestions] = useState(() => 
         shuffle(questions).slice(0, questionCount).map(shuffleQuestion)
     )
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const [ selectedIndex, setSelectedIndex ] = useState(null)
-    const [ answers, setAnswers ] = useState([])
+    const [ currentIndex, setCurrentIndex ] = useState(0)
+    const [ pickedById, setPickedById ] = useState({})
+    const [ submitted, setSubmitted ] = useState(false)
     const [ timeLeft, setTimeLeft ] = useState(timeLimitSeconds)
     const [ endTime ] = useState(() => Date.now() + timeLimitSeconds * 1000)
 
     const currentQuestion = quizQuestions[currentIndex]
+    const isFirstQuestion = currentIndex === 0
     const isLastQuestion = currentIndex === quizQuestions.length-1
-    const score = answers.filter(answer => answer.correct).length
-    const isFinished = answers.length === quizQuestions.length || timeLeft === 0
+    const selectedIndex = pickedById[currentQuestion.id] ?? null
+    const isFinished = submitted || timeLeft === 0
 
     const results = quizQuestions.map(question => {
-        const given = answers.find(answer => answer.questionId == question.id)
-        return given ?? { questionId: question.id, selectedIndex: null, correct: false }
+        const picked = pickedById[question.id] ?? null
+        return {
+            questionId: question.id,
+            selectedIndex: picked,
+            correct: picked !== null && picked === question.correctAnswer
+        }
     })
+
+    const score = results.filter(result => result.correct).length
+    const answeredCount = Object.keys(pickedById).length
 
     useEffect(() => {
         if(isFinished) return
@@ -48,24 +56,21 @@ function useQuiz(questionCount, timeLimitSeconds){
 
     function selectAnswer(index) {
         if (isFinished) return
-        setSelectedIndex(index)
+        setPickedById(prev => ({...prev, [currentQuestion.id]: index}))
     }
 
-    function next() {
-        if(selectedIndex === null || isFinished) return
+    function goNext() {
+        if (isLastQuestion || isFinished) return
+        setCurrentIndex(prev => prev+1)
+    }
 
-        const answer = {
-            questionId: currentQuestion.id,
-            selectedIndex,
-            correct: selectedIndex === currentQuestion.correctAnswer
-        }
+    function goPrevious() {
+        if (isFirstQuestion || isFinished) return
+        setCurrentIndex(prev => prev-1)
+    }
 
-        setAnswers(prev => [...prev, answer])
-        setSelectedIndex(null)
-
-        if(!isLastQuestion){
-            setCurrentIndex(prev => prev+1)
-        }
+    function submit() {
+        setSubmitted(true)
     }
 
     return {
@@ -73,14 +78,18 @@ function useQuiz(questionCount, timeLimitSeconds){
         currentQuestion,
         currentIndex,
         total: quizQuestions.length,
+        isFirstQuestion,
         isLastQuestion,
         selectedIndex,
         answers: results,
+        answeredCount,
         score,
         isFinished,
         timeLeft,
         selectAnswer,
-        next
+        goNext,
+        goPrevious,
+        submit
     }
 }
 
