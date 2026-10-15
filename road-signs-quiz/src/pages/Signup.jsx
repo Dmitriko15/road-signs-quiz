@@ -44,26 +44,28 @@ function Signup() {
     }
     
     return (
-        <div>
-            <h1>Sign Up now</h1>
+        <section className='py-8'>
+            <h1 className="text-4xl font-bold text-slate-900">Sign Up now</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <input
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder='Enter Email ...'
-                />
-                <input 
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder='Enter Password ...'
-                />
-                <button type='submit'>Sign Up</button>
-            </form>
-            <Link to="/login">Already have an account? Log in</Link>
-        </div>
+            <div className="mt-6 space-y-4 text-lg text-slate-700">
+                <form onSubmit={handleSubmit}>
+                    <input
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Enter Email ...'
+                    />
+                    <input 
+                    type='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Enter Password ...'
+                    />
+                    <button type='submit' className="rounded bg-blue-600 px-6 py-2 text-white hover:bg-blue-700">Sign Up</button>
+                </form>
+                <Link to="/login" className="rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700">Already have an account? Log in</Link>
+            </div>
+        </section>
     )
 }
 

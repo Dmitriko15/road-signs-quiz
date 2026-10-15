@@ -34,13 +34,13 @@ function Header() {
                     {user ? (
                         <>
                             <NavLink to="/account" className={navClass}>Account</NavLink>
-                            <button onClick={onLogout} className="rounded border border-slate-300 px-3 py-1 text-slate-700 hover:bg-slate-100">
+                            <button onClick={onLogout} className="rounded border border-slate-300 px-3 py-1 text-slate-700 hover:bg-slate-300">
                                 Logout
                             </button>
                         </>
                     ):(
                         <>
-                            <Link to="/login" className="rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700">
+                            <Link to="/login" className="rounded border border-slate-300 px-3 py-1 text-slate-700 hover:bg-slate-300">
                                 Log In
                             </Link>
                         </>

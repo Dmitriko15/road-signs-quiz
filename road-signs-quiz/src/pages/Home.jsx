@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 function Home() {
+    const { user } = useAuth()
+
     return (
         <section className='py-8'>
             <h1 className="text-4xl font-bold text-slate-900">BestDrive with Dmitri</h1>
@@ -20,8 +23,14 @@ function Home() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-                <Link to="/signup" className="rounded bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Sign up to start</Link>
-                <Link to="/login" className="rounded border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-100">Sign in</Link>
+                {user ? (
+                    <Link to="/exam" className="rounded bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Start the exam</Link>
+                ) : (
+                    <>
+                    <Link to="/signup" className="rounded bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Sign up to start</Link>
+                    <Link to="/login" className="rounded border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-100">Sign in</Link>
+                    </>
+                )}
             </div>
         </section>
     )
